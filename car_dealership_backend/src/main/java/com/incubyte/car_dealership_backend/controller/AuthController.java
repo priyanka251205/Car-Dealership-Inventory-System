@@ -1,5 +1,7 @@
 package com.incubyte.car_dealership_backend.controller;
 
+import com.incubyte.car_dealership_backend.dto.AuthResponse;
+import com.incubyte.car_dealership_backend.dto.LoginRequest;
 import com.incubyte.car_dealership_backend.dto.RegisterRequest;
 import com.incubyte.car_dealership_backend.service.AuthService;
 import jakarta.validation.Valid;
@@ -19,8 +21,14 @@ public class AuthController {
     public ResponseEntity<String> register(
             @Valid @RequestBody RegisterRequest request) {
 
-        String response = authService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authService.register(request));
+    }
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(
+            @Valid @RequestBody LoginRequest request) {
+
+        return ResponseEntity.ok(authService.login(request));
     }
 }

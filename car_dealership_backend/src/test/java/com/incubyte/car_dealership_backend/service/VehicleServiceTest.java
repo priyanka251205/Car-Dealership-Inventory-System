@@ -29,28 +29,35 @@ class VehicleServiceTest {
     @Test
     void shouldAddVehicleSuccessfully() {
 
-        VehicleRequest request = VehicleRequest.builder()
-                .make("Toyota")
-                .model("Fortuner")
-                .category("SUV")
-                .price(3500000)
-                .quantity(5)
-                .build();
+        VehicleRequest request =
+                VehicleRequest.builder()
+                        .make("Toyota")
+                        .model("Fortuner")
+                        .category("SUV")
+                        .price(3500000)
+                        .quantity(5)
+                        .build();
 
-        Vehicle vehicle = Vehicle.builder()
-                .id(1L)
-                .make(request.getMake())
-                .model(request.getModel())
-                .category(request.getCategory())
-                .price(request.getPrice())
-                .quantity(request.getQuantity())
-                .build();
+        Vehicle vehicle =
+                Vehicle.builder()
+                        .id(1L)
+                        .make("Toyota")
+                        .model("Fortuner")
+                        .category("SUV")
+                        .price(3500000)
+                        .quantity(5)
+                        .build();
 
         when(vehicleRepository.save(any(Vehicle.class)))
                 .thenReturn(vehicle);
 
-        String response = vehicleService.addVehicle(request);
+        String response =
+                vehicleService.addVehicle(request);
 
-        assertEquals("Vehicle Added Successfully", response);
+        assertEquals(
+                "Vehicle Added Successfully",
+                response
+        );
     }
+
 }
