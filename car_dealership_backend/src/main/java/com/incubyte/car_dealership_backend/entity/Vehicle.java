@@ -37,4 +37,7 @@ public class Vehicle {
     @Min(value = 0, message = "Quantity cannot be negative")
     @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false)
+    private String imageUrl;
 }

@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AddVehicle from "./pages/AddVehicle";
 import EditVehicle from "./pages/EditVehicle";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -12,15 +13,48 @@ function App() {
 
         <Routes>
 
-            <Route path="/" element={<Login />} />
+            <Route
+                path="/"
+                element={<Login />}
+            />
 
-            <Route path="/register" element={<Register />} />
+            <Route
+                path="/register"
+                element={<Register />}
+            />
 
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
 
-            <Route path="/add-vehicle" element={<AddVehicle />} />
+                        <Dashboard />
 
-            <Route path="/edit-vehicle/:id" element={<EditVehicle />} />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/add-vehicle"
+                element={
+                    <ProtectedRoute role="ADMIN">
+
+                        <AddVehicle />
+
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/edit-vehicle/:id"
+                element={
+                    <ProtectedRoute role="ADMIN">
+
+                        <EditVehicle />
+
+                    </ProtectedRoute>
+                }
+            />
 
         </Routes>
 

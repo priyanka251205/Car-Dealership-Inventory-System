@@ -75,6 +75,13 @@ public class VehicleController {
         );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                vehicleService.getVehicleById(id)
+        );
+    }
     // Restock Vehicle
     @PostMapping("/{id}/restock")
     public ResponseEntity<String> restockVehicle(
