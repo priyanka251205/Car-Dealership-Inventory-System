@@ -6,9 +6,10 @@ import SearchBar from "../components/SearchBar";
 import VehicleCard from "../components/VehicleCard";
 
 import {
-  getAllVehicles,
-  searchVehicles,
-  purchaseVehicle,
+    getAllVehicles,
+    searchVehicles,
+    purchaseVehicle,
+    deleteVehicle
 } from "../services/vehicleService";
 
 import "../styles/Dashboard.css";
@@ -65,6 +66,30 @@ function Dashboard() {
     }
   };
 
+  const handleDelete = async (id) => {
+
+    const confirmDelete = window.confirm(
+        "Are you sure you want to delete this vehicle?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+
+        await deleteVehicle(id);
+
+        alert("Vehicle Deleted Successfully");
+
+        loadVehicles();
+
+    } catch (error) {
+
+        alert(error.response?.data || "Delete Failed");
+
+    }
+
+};
+
   return (
     <>
       <Navbar />
@@ -107,6 +132,7 @@ function Dashboard() {
                 <VehicleCard
                   vehicle={vehicle}
                   onPurchase={handlePurchase}
+                  onDelete={handleDelete}
                 />
 
               </div>

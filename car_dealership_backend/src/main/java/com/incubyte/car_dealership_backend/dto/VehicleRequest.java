@@ -24,4 +24,7 @@ public class VehicleRequest {
 
     @Min(0)
     private int quantity;
+
+    @NotBlank
+    private String imageUrl;
 }

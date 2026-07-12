@@ -12,7 +12,8 @@ function AddVehicle() {
         model: "",
         category: "",
         price: "",
-        quantity: ""
+        quantity: "",
+        imageUrl: ""
     });
 
     const handleChange = (e) => {
@@ -53,115 +54,163 @@ function AddVehicle() {
 
                 <div className="row justify-content-center">
 
-                    <div className="col-md-8">
+                    <div className="col-lg-8">
 
-                        <div className="card shadow p-4">
+                        <div className="card shadow-lg border-0">
 
-                            <h2 className="text-center mb-4">
-                                Add New Vehicle
-                            </h2>
+                            <div className="card-header bg-dark text-white">
 
-                            <form onSubmit={handleSubmit}>
+                                <h3 className="mb-0">
+                                    🚗 Add New Vehicle
+                                </h3>
 
-                                <div className="mb-3">
+                            </div>
 
-                                    <label className="form-label">
-                                        Make
-                                    </label>
+                            <div className="card-body">
 
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="make"
-                                        value={vehicle.make}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                                <form onSubmit={handleSubmit}>
 
-                                </div>
+                                    <div className="mb-3">
 
-                                <div className="mb-3">
+                                        <label className="form-label">
+                                            Make
+                                        </label>
 
-                                    <label className="form-label">
-                                        Model
-                                    </label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            name="make"
+                                            value={vehicle.make}
+                                            onChange={handleChange}
+                                            required
+                                        />
 
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="model"
-                                        value={vehicle.model}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                                    </div>
 
-                                </div>
+                                    <div className="mb-3">
 
-                                <div className="mb-3">
+                                        <label className="form-label">
+                                            Model
+                                        </label>
 
-                                    <label className="form-label">
-                                        Category
-                                    </label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            name="model"
+                                            value={vehicle.model}
+                                            onChange={handleChange}
+                                            required
+                                        />
 
-                                    <select
-                                        className="form-select"
-                                        name="category"
-                                        value={vehicle.category}
-                                        onChange={handleChange}
-                                        required
+                                    </div>
+
+                                    <div className="mb-3">
+
+                                        <label className="form-label">
+                                            Category
+                                        </label>
+
+                                        <select
+                                            className="form-select"
+                                            name="category"
+                                            value={vehicle.category}
+                                            onChange={handleChange}
+                                            required
+                                        >
+                                            <option value="">Select Category</option>
+                                            <option>SUV</option>
+                                            <option>Sedan</option>
+                                            <option>Hatchback</option>
+                                            <option>Sports</option>
+                                            <option>Truck</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div className="row">
+
+                                        <div className="col-md-6 mb-3">
+
+                                            <label className="form-label">
+                                                Price
+                                            </label>
+
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                name="price"
+                                                value={vehicle.price}
+                                                onChange={handleChange}
+                                                required
+                                            />
+
+                                        </div>
+
+                                        <div className="col-md-6 mb-3">
+
+                                            <label className="form-label">
+                                                Quantity
+                                            </label>
+
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                name="quantity"
+                                                value={vehicle.quantity}
+                                                onChange={handleChange}
+                                                required
+                                            />
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className="mb-4">
+
+                                        <label className="form-label">
+                                            Vehicle Image URL
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            name="imageUrl"
+                                            value={vehicle.imageUrl}
+                                            onChange={handleChange}
+                                            placeholder="Paste Image URL"
+                                            required
+                                        />
+
+                                    </div>
+
+                                    {vehicle.imageUrl && (
+
+                                        <div className="text-center mb-4">
+
+                                            <img
+                                                src={vehicle.imageUrl}
+                                                alt="Preview"
+                                                style={{
+                                                    width: "100%",
+                                                    maxHeight: "300px",
+                                                    objectFit: "cover",
+                                                    borderRadius: "10px"
+                                                }}
+                                            />
+
+                                        </div>
+
+                                    )}
+
+                                    <button
+                                        className="btn btn-success w-100"
                                     >
-                                        <option value="">Select Category</option>
-                                        <option>SUV</option>
-                                        <option>Sedan</option>
-                                        <option>Hatchback</option>
-                                        <option>Sports</option>
-                                        <option>Truck</option>
-                                    </select>
+                                        Add Vehicle
+                                    </button>
 
-                                </div>
+                                </form>
 
-                                <div className="mb-3">
-
-                                    <label className="form-label">
-                                        Price
-                                    </label>
-
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="price"
-                                        value={vehicle.price}
-                                        onChange={handleChange}
-                                        required
-                                    />
-
-                                </div>
-
-                                <div className="mb-4">
-
-                                    <label className="form-label">
-                                        Quantity
-                                    </label>
-
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="quantity"
-                                        value={vehicle.quantity}
-                                        onChange={handleChange}
-                                        required
-                                    />
-
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    className="btn btn-success w-100"
-                                >
-                                    Add Vehicle
-                                </button>
-
-                            </form>
+                            </div>
 
                         </div>
 
