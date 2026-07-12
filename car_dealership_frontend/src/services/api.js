@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 const api = axios.create({
@@ -12,7 +11,12 @@ api.interceptors.request.use((config) => {
 
     const token = localStorage.getItem("token");
 
-    if (token) {
+    // Don't send token to authentication endpoints
+    if (
+        token &&
+        !config.url.startsWith("/auth/login") &&
+        !config.url.startsWith("/auth/register")
+    ) {
         config.headers.Authorization = `Bearer ${token}`;
     }
 
