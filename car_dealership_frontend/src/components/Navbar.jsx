@@ -4,9 +4,11 @@ function Navbar() {
 
     const navigate = useNavigate();
 
+    const role = localStorage.getItem("role");
+
     const logout = () => {
 
-        localStorage.removeItem("token");
+        localStorage.clear();
 
         navigate("/");
 
@@ -18,18 +20,35 @@ function Navbar() {
 
             <div className="container">
 
-                <span className="navbar-brand fw-bold">
-
+                <span
+                    className="navbar-brand fw-bold"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate("/dashboard")}
+                >
                     🚗 Car Inventory
-
                 </span>
 
-                <button
-                    className="btn btn-warning"
-                    onClick={logout}
-                >
-                    Logout
-                </button>
+                <div>
+
+                    {role === "ADMIN" && (
+
+                        <button
+                            className="btn btn-success me-2"
+                            onClick={() => navigate("/add-vehicle")}
+                        >
+                            Add Vehicle
+                        </button>
+
+                    )}
+
+                    <button
+                        className="btn btn-warning"
+                        onClick={logout}
+                    >
+                        Logout
+                    </button>
+
+                </div>
 
             </div>
 

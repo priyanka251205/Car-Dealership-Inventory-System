@@ -5,21 +5,61 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AddVehicle from "./pages/AddVehicle";
 import EditVehicle from "./pages/EditVehicle";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Login />} />
 
-      <Route path="/register" element={<Register />} />
+    return (
 
-      <Route path="/dashboard" element={<Dashboard />} />
+        <Routes>
 
-      <Route path="/add-vehicle" element={<AddVehicle />} />
+            <Route
+                path="/"
+                element={<Login />}
+            />
 
-      <Route path="/edit-vehicle/:id" element={<EditVehicle />} />
-    </Routes>
-  );
+            <Route
+                path="/register"
+                element={<Register />}
+            />
+
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+
+                        <Dashboard />
+
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/add-vehicle"
+                element={
+                    <ProtectedRoute role="ADMIN">
+
+                        <AddVehicle />
+
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/edit-vehicle/:id"
+                element={
+                    <ProtectedRoute role="ADMIN">
+
+                        <EditVehicle />
+
+                    </ProtectedRoute>
+                }
+            />
+
+        </Routes>
+
+    );
+
 }
 
 export default App;
