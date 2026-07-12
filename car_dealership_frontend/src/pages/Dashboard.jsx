@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import VehicleCard from "../components/VehicleCard";
+
 import {
   getAllVehicles,
   searchVehicles,
@@ -11,6 +14,8 @@ import {
 import "../styles/Dashboard.css";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,11 +26,13 @@ function Dashboard() {
   const loadVehicles = async () => {
     try {
       setLoading(true);
+
       const response = await getAllVehicles();
+
       setVehicles(response.data);
     } catch (error) {
       console.error(error);
-      alert("Unable to load vehicles");
+      alert("Unable to load vehicles.");
     } finally {
       setLoading(false);
     }
@@ -42,6 +49,7 @@ function Dashboard() {
       setVehicles(response.data);
     } catch (error) {
       console.error(error);
+      alert("Search failed.");
     }
   };
 
@@ -63,28 +71,59 @@ function Dashboard() {
 
       <div className="container mt-4">
 
+        <div className="d-flex justify-content-between align-items-center mb-4">
+
+          <h2 className="fw-bold">
+            Vehicle Inventory
+          </h2>
+
+          <button
+            className="btn btn-success"
+            onClick={() => navigate("/add-vehicle")}
+          >
+            + Add Vehicle
+          </button>
+
+        </div>
+
         <SearchBar onSearch={handleSearch} />
 
         {loading ? (
+
           <div className="text-center mt-5">
             <div className="spinner-border text-primary"></div>
           </div>
+
         ) : vehicles.length === 0 ? (
+
           <div className="text-center mt-5">
             <h3>No Vehicles Available</h3>
           </div>
+
         ) : (
+
           <div className="row mt-4">
+
             {vehicles.map((vehicle) => (
-              <div className="col-lg-4 col-md-6 mb-4" key={vehicle.id}>
+
+              <div
+                className="col-lg-4 col-md-6 col-sm-12 mb-4"
+                key={vehicle.id}
+              >
+
                 <VehicleCard
                   vehicle={vehicle}
                   onPurchase={handlePurchase}
                 />
+
               </div>
+
             ))}
+
           </div>
+
         )}
+
       </div>
     </>
   );
