@@ -4,6 +4,7 @@ import com.incubyte.car_dealership_backend.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -44,14 +45,38 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
-
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // Public
                         .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
+
+                        // USER + ADMIN
+                        .requestMatchers(HttpMethod.GET, "/api/vehicles/**")
+                        .hasAnyAuthority("USER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/vehicles/*/purchase")
+                        .hasAnyAuthority("USER", "ADMIN")
+
+                        // ADMIN ONLY
+                        .requestMatchers(HttpMethod.POST, "/api/vehicles")
+                        .hasAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/vehicles/**")
+                        .hasAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**")
+                        .hasAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/vehicles/*/restock")
+                        .hasAuthority("ADMIN")
+
+                        .anyRequest()
+                        .authenticated()
+
                 )
 
                 .addFilterBefore(
