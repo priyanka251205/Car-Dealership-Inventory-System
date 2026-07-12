@@ -353,7 +353,7 @@ AI tools were used responsibly during the development of this project to improve
 ## AI Tools Used
 
 - ChatGPT (OpenAI)
-- GitHub Copilot
+- AntiGravity
 
 ## How AI Was Used
 
