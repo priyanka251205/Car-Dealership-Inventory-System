@@ -1,69 +1,93 @@
-# 🚗 Car Dealership Inventory System
+# 🚗 Luxora Motors
+### Premium Car Dealership Inventory Management System
 
-A Full Stack Car Dealership Inventory Management System developed using **Spring Boot**, **React**, **JWT Authentication**, and **MySQL** following **Test-Driven Development (TDD)** principles.
-
-This application allows customers to browse and purchase vehicles while providing administrators with a secure dashboard to manage inventory, update stock, and maintain vehicle records.
+![Java](https://img.shields.io/badge/Java-21-red)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen)
+![React](https://img.shields.io/badge/React-19-blue)
+![JWT](https://img.shields.io/badge/JWT-Authentication-orange)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
+![MySQL](https://img.shields.io/badge/Database-MySQL-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-# 📌 Project Overview
+## 📌 Overview
 
-The Car Dealership Inventory System is a modern web application that enables dealerships to efficiently manage their vehicle inventory.
+**Luxora Motors** is a full-stack Car Dealership Inventory Management System built using **Spring Boot**, **React**, **JWT Authentication**, and **MySQL**.
 
-The system supports:
+The application enables customers to browse premium vehicles, view detailed information, purchase vehicles, and allows administrators to manage inventory through a secure dashboard.
 
-- Secure User Authentication
-- Role-Based Authorization
-- Vehicle Inventory Management
-- Vehicle Search
-- Vehicle Purchase
-- Vehicle Restocking
-- Responsive User Interface
-- RESTful APIs
-- Database Integration
+This project was developed following modern software engineering principles including:
+
+- RESTful API Design
+- Role-Based Authentication
+- JWT Security
+- CRUD Operations
+- Responsive UI Design
+- Test Driven Development (TDD)
+- Clean Architecture
+- Git Workflow
 
 ---
 
 # ✨ Features
 
-## Authentication
+## 👤 Authentication
 
 - User Registration
 - User Login
 - JWT Authentication
 - BCrypt Password Encryption
+- Role-Based Authorization
 - Protected Routes
-- Automatic Logout on Invalid Token
+- Automatic Session Handling
 
 ---
 
-## User Features
+## 🚘 Vehicle Management
 
-- View Available Vehicles
-- Search Vehicles by Make
+- View All Vehicles
+- Search Vehicles
+- Filter Vehicles
+- View Vehicle Details
+- Responsive Vehicle Cards
+- Stock Availability Indicators
+
+---
+
+## 🛒 Purchase Management
+
 - Purchase Vehicle
-- Real-time Stock Updates
-- Responsive Dashboard
+- Customer Information Form
+- Inventory Update
+- Purchase History
+- Admin Purchase Tracking
 
 ---
 
-## Admin Features
+## 👨‍💼 Admin Features
 
 - Add Vehicle
 - Edit Vehicle
 - Delete Vehicle
-- Restock Vehicle Inventory
-- Manage Complete Vehicle Inventory
+- Restock Inventory
+- Purchase History Dashboard
+- Inventory Statistics
 
 ---
 
-## Inventory Features
+## 🎨 UI Features
 
-- Vehicle Purchase
-- Vehicle Restocking
-- Stock Status
-- Inventory Statistics
-- Search Functionality
+- Modern Responsive Interface
+- Premium Dashboard
+- Glassmorphism Components
+- Toast Notifications
+- Confirmation Modals
+- Responsive Navigation
+- Attractive Vehicle Cards
+- Hover Animations
+- Loading Indicators
+- Empty State UI
 
 ---
 
@@ -72,11 +96,11 @@ The system supports:
 ## Frontend
 
 - React
+- Vite
 - React Router
 - Axios
-- Bootstrap
+- Bootstrap 5
 - CSS3
-- Vite
 
 ---
 
@@ -85,14 +109,14 @@ The system supports:
 - Spring Boot
 - Spring Security
 - Spring Data JPA
-- JWT
+- JWT Authentication
 - Maven
 
 ---
 
 ## Database
 
-- MySQL
+- SQLite
 
 ---
 
@@ -109,17 +133,19 @@ The system supports:
 # 📁 Project Structure
 
 ```
-Car-Dealership-Inventory-System
+
+Luxora-Motors
 │
 ├── car_dealership_backend
-│   ├── src
-│   ├── pom.xml
-│   └── ...
+│ ├── src
+│ ├── pom.xml
+│ └── ...
 │
 ├── car_dealership_frontend
-│   ├── src
-│   ├── package.json
-│   └── ...
+│ ├── src
+│ ├── package.json
+│ └── ...
+│
+├── screenshots
 │
 └── README.md
-```
