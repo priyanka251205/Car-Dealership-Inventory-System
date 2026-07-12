@@ -2,18 +2,21 @@ package com.incubyte.car_dealership_backend.service;
 
 import com.incubyte.car_dealership_backend.dto.VehicleRequest;
 import com.incubyte.car_dealership_backend.entity.Vehicle;
+import com.incubyte.car_dealership_backend.exception.VehicleNotFoundException;
 import com.incubyte.car_dealership_backend.repository.VehicleRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class VehicleServiceTest {
 
     @Mock
@@ -22,51 +25,215 @@ class VehicleServiceTest {
     @InjectMocks
     private VehicleService vehicleService;
 
-    @BeforeEach
-    void setup() {
-        MockitoAnnotations.openMocks(this);
+    private VehicleRequest getVehicleRequest() {
+        return VehicleRequest.builder()
+                .make("Toyota")
+                .model("Fortuner")
+                .category("SUV")
+                .price(4500000)
+                .quantity(5)
+                .imageUrl("image.jpg")
+                .year(2024)
+                .description("Premium SUV")
+                .build();
+    }
+
+    private Vehicle getVehicle() {
+        return Vehicle.builder()
+                .id(1L)
+                .make("Toyota")
+                .model("Fortuner")
+                .category("SUV")
+                .price(4500000)
+                .quantity(5)
+                .imageUrl("image.jpg")
+                .year(2024)
+                .description("Premium SUV")
+                .build();
     }
 
     @Test
     void shouldAddVehicleSuccessfully() {
 
-        // Arrange
-        VehicleRequest request = VehicleRequest.builder()
-                .make("Toyota")
-                .model("Fortuner")
-                .category("SUV")
-                .price(3500000)
-                .quantity(5)
-                .build();
-
-        Vehicle savedVehicle = Vehicle.builder()
-                .id(1L)
-                .make(request.getMake())
-                .model(request.getModel())
-                .category(request.getCategory())
-                .price(request.getPrice())
-                .quantity(request.getQuantity())
-                .build();
+        VehicleRequest request = getVehicleRequest();
 
         when(vehicleRepository.save(any(Vehicle.class)))
-                .thenReturn(savedVehicle);
+                .thenReturn(getVehicle());
 
-        // Act
-        String response = vehicleService.addVehicle(request);
+        String result = vehicleService.addVehicle(request);
 
-        // Assert
-        assertEquals("Vehicle Added Successfully", response);
+        assertEquals("Vehicle Added Successfully", result);
 
-        ArgumentCaptor<Vehicle> captor = ArgumentCaptor.forClass(Vehicle.class);
+        verify(vehicleRepository, times(1))
+                .save(any(Vehicle.class));
+    }
 
-        verify(vehicleRepository, times(1)).save(captor.capture());
+    @Test
+    void shouldReturnAllVehicles() {
 
-        Vehicle vehicle = captor.getValue();
+        List<Vehicle> vehicles = List.of(getVehicle());
 
-        assertEquals("Toyota", vehicle.getMake());
-        assertEquals("Fortuner", vehicle.getModel());
-        assertEquals("SUV", vehicle.getCategory());
-        assertEquals(3500000, vehicle.getPrice());
-        assertEquals(5, vehicle.getQuantity());
+        when(vehicleRepository.findAll()).thenReturn(vehicles);
+
+        List<Vehicle> result = vehicleService.getAllVehicles();
+
+        assertEquals(1, result.size());
+
+        verify(vehicleRepository).findAll();
+    }
+
+    @Test
+    void shouldSearchVehicleByMake() {
+
+        when(vehicleRepository.findByMakeIgnoreCase("Toyota"))
+                .thenReturn(List.of(getVehicle()));
+
+        List<Vehicle> result = vehicleService.searchByMake("Toyota");
+
+        assertEquals(1, result.size());
+
+        assertEquals("Toyota", result.get(0).getMake());
+
+        verify(vehicleRepository).findByMakeIgnoreCase("Toyota");
+    }
+
+    @Test
+    void shouldUpdateVehicleSuccessfully() {
+
+        Vehicle vehicle = getVehicle();
+
+        VehicleRequest request = getVehicleRequest();
+
+        request.setModel("Camry");
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(vehicle));
+
+        when(vehicleRepository.save(any(Vehicle.class)))
+                .thenReturn(vehicle);
+
+        Vehicle updated = vehicleService.updateVehicle(1L, request);
+
+        assertEquals("Camry", updated.getModel());
+
+        verify(vehicleRepository).save(vehicle);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUpdatingUnknownVehicle() {
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                VehicleNotFoundException.class,
+                () -> vehicleService.updateVehicle(1L, getVehicleRequest())
+        );
+    }
+
+    @Test
+    void shouldDeleteVehicleSuccessfully() {
+
+        Vehicle vehicle = getVehicle();
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(vehicle));
+
+        String result = vehicleService.deleteVehicle(1L);
+
+        assertEquals("Vehicle Deleted Successfully", result);
+
+        verify(vehicleRepository).delete(vehicle);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDeletingUnknownVehicle() {
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                VehicleNotFoundException.class,
+                () -> vehicleService.deleteVehicle(1L)
+        );
+    }
+
+    @Test
+    void shouldPurchaseVehicleSuccessfully() {
+
+        Vehicle vehicle = getVehicle();
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(vehicle));
+
+        String result = vehicleService.purchaseVehicle(1L);
+
+        assertEquals("Vehicle Purchased Successfully", result);
+
+        assertEquals(4, vehicle.getQuantity());
+
+        verify(vehicleRepository).save(vehicle);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenVehicleOutOfStock() {
+
+        Vehicle vehicle = getVehicle();
+
+        vehicle.setQuantity(0);
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(vehicle));
+
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> vehicleService.purchaseVehicle(1L)
+        );
+
+        assertEquals("Vehicle Out Of Stock", exception.getMessage());
+    }
+
+    @Test
+    void shouldRestockVehicleSuccessfully() {
+
+        Vehicle vehicle = getVehicle();
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(vehicle));
+
+        String result = vehicleService.restockVehicle(1L, 10);
+
+        assertEquals("Vehicle Restocked Successfully", result);
+
+        assertEquals(15, vehicle.getQuantity());
+
+        verify(vehicleRepository).save(vehicle);
+    }
+
+    @Test
+    void shouldReturnVehicleById() {
+
+        Vehicle vehicle = getVehicle();
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(vehicle));
+
+        Vehicle result = vehicleService.getVehicleById(1L);
+
+        assertEquals(1L, result.getId());
+
+        verify(vehicleRepository).findById(1L);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenVehicleNotFoundById() {
+
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                VehicleNotFoundException.class,
+                () -> vehicleService.getVehicleById(1L)
+        );
     }
 }
