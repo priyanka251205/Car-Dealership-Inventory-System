@@ -1,28 +1,35 @@
 import { useState } from "react";
 
 function SearchBar({ onSearch }) {
+
   const [keyword, setKeyword] = useState("");
 
-  const handleSubmit = (e) => {
+  const search = (e) => {
     e.preventDefault();
     onSearch(keyword);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="d-flex">
+    <form onSubmit={search} className="row">
 
-      <input
-        className="form-control me-2"
-        placeholder="Search by Make"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-      />
+      <div className="col-md-10">
 
-      <button
-        className="btn btn-primary"
-      >
-        Search
-      </button>
+        <input
+          className="form-control"
+          placeholder="Search by Make..."
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+
+      </div>
+
+      <div className="col-md-2">
+
+        <button className="btn btn-primary w-100">
+          Search
+        </button>
+
+      </div>
 
     </form>
   );
