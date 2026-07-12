@@ -244,95 +244,105 @@ Protected APIs require a valid JWT token.
 
 ---
 
-# 📷 Application Screenshots
+# 📸 Application Screenshots
 
-## Login
+## 🔐 Login Page
 
-![](screenshots/1_login_page.png)
-
----
-
-## Register
-
-![](screenshots/2_register_page.png)
+![Login](screenshots/1_login_page.png)
 
 ---
 
-## User Dashboard
+## 📝 Register Page
 
-![](screenshots/3_user_dashboard_1.png)
-
-![](screenshots/3_user_dashboard_2.png)
-
-![](screenshots/3_user_dashboard_3.png)
+![Register](screenshots/2_register_page.png)
 
 ---
 
-## Vehicle Card
+## 👤 User Dashboard
 
-![](screenshots/4_car_card_forUser.png)
+### Dashboard View 1
 
----
+![Dashboard 1](screenshots/3_user_dashboard_1.png)
 
-## Purchase Vehicle
+### Dashboard View 2
 
-![](screenshots/5_purchase_invoice_forUser.png)
+![Dashboard 2](screenshots/3_user_dashboard_2.png)
 
----
+### Dashboard View 3
 
-## User Profile
-
-![](screenshots/6_userProfile.png)
+![Dashboard 3](screenshots/3_user_dashboard_3.png)
 
 ---
 
-## Admin Dashboard
+## 🚗 Vehicle Cards (User)
 
-![](screenshots/7_admin_dashboard_1.png)
-
-![](screenshots/7_admin_dashboard_2.png)
+![Vehicle Card](screenshots/4_car_card_forUser.png)
 
 ---
 
-## Admin Vehicle Card
+## 🛒 Purchase Invoice
 
-![](screenshots/8_carCard_forAdmin.png)
-
----
-
-## Delete Vehicle
-
-![](screenshots/9_delete_vehical.png)
+![Purchase Invoice](screenshots/5_purchase_invoice_forUser.png)
 
 ---
 
-## Edit Vehicle
+## 👤 User Profile
 
-![](screenshots/10_edit_vehical.png)
-
----
-
-## Restock Vehicle
-
-![](screenshots/11_restock_vehical.png)
+![User Profile](screenshots/6_userProfile.png)
 
 ---
 
-## Purchase History
+## 👨‍💼 Admin Dashboard
 
-![](screenshots/12_purchase_history.png)
+### Dashboard View 1
+
+![Admin Dashboard 1](screenshots/7_admin_dashboard_1.png)
+
+### Dashboard View 2
+
+![Admin Dashboard 2](screenshots/7_admin_dashboard_2.png)
 
 ---
 
-## Add Vehicle
+## 🚘 Vehicle Card (Admin)
 
-![](screenshots/13_add_vehical.png)
+![Admin Vehicle Card](screenshots/8_carCard_forAdmin.png)
 
 ---
 
-## Admin Profile
+## 🗑️ Delete Vehicle
 
-![](screenshots/14_AdminProfile.png)
+![Delete Vehicle](screenshots/9_delete_vehical.png)
+
+---
+
+## ✏️ Edit Vehicle
+
+![Edit Vehicle](screenshots/10_edit_vehical.png)
+
+---
+
+## 📦 Restock Vehicle
+
+![Restock Vehicle](screenshots/11_restock_vehical.png)
+
+---
+
+## 📜 Purchase History
+
+![Purchase History](screenshots/12_purchase_history.png)
+
+---
+
+## ➕ Add Vehicle
+
+![Add Vehicle](screenshots/13_add_vehical.png)
+
+---
+
+## 👤 Admin Profile
+
+![Admin Profile](screenshots/14_AdminProfile.png)
 
 ---
 
