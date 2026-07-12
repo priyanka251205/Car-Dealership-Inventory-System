@@ -7,25 +7,19 @@ import AddVehicle from "./pages/AddVehicle";
 import EditVehicle from "./pages/EditVehicle";
 
 function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Login />} />
 
-    return (
+      <Route path="/register" element={<Register />} />
 
-        <Routes>
+      <Route path="/dashboard" element={<Dashboard />} />
 
-            <Route path="/" element={<Login />} />
+      <Route path="/add-vehicle" element={<AddVehicle />} />
 
-            <Route path="/register" element={<Register />} />
-
-            <Route path="/dashboard" element={<Dashboard />} />
-
-            <Route path="/add-vehicle" element={<AddVehicle />} />
-
-            <Route path="/edit-vehicle/:id" element={<EditVehicle />} />
-
-        </Routes>
-
-    );
-
+      <Route path="/edit-vehicle/:id" element={<EditVehicle />} />
+    </Routes>
+  );
 }
 
 export default App;

@@ -1,10 +1,12 @@
-package com.incubyte.car_dealership_backend.security;
+package com.incubyte.car_dealership_backend.service;
 
 import com.incubyte.car_dealership_backend.entity.User;
 import com.incubyte.car_dealership_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

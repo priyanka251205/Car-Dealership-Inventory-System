@@ -1,62 +1,39 @@
 function VehicleCard({ vehicle, onPurchase }) {
+  return (
+    <div className="card shadow h-100">
 
-    return (
+      <div className="card-body">
 
-        <div className="card shadow h-100">
+        <h4>{vehicle.make}</h4>
 
-            <div className="card-body">
+        <h5>{vehicle.model}</h5>
 
-                <h4>{vehicle.make}</h4>
+        <p>
+          <strong>Category:</strong> {vehicle.category}
+        </p>
 
-                <h6>{vehicle.model}</h6>
+        <p>
+          <strong>Price:</strong> ₹{vehicle.price}
+        </p>
 
-                <p>
+        <p>
+          <strong>Stock:</strong> {vehicle.quantity}
+        </p>
 
-                    Category :
-                    <strong> {vehicle.category}</strong>
+        <button
+          className="btn btn-success w-100"
+          disabled={vehicle.quantity === 0}
+          onClick={() => onPurchase(vehicle.id)}
+        >
+          {vehicle.quantity === 0
+            ? "Out of Stock"
+            : "Purchase"}
+        </button>
 
-                </p>
+      </div>
 
-                <p>
-
-                    Price :
-                    <strong> ₹{vehicle.price}</strong>
-
-                </p>
-
-                <p>
-
-                    Stock :
-                    <strong> {vehicle.quantity}</strong>
-
-                </p>
-
-                <button
-
-                    className="btn btn-success w-100"
-
-                    disabled={vehicle.quantity === 0}
-
-                    onClick={() => onPurchase(vehicle.id)}
-
-                >
-
-                    {
-                        vehicle.quantity === 0
-
-                            ? "Out Of Stock"
-
-                            : "Purchase"
-                    }
-
-                </button>
-
-            </div>
-
-        </div>
-
-    );
-
+    </div>
+  );
 }
 
 export default VehicleCard;
