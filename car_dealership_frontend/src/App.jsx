@@ -5,6 +5,9 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AddVehicle from "./pages/AddVehicle";
 import EditVehicle from "./pages/EditVehicle";
+import VehicleDetails from "./pages/VehicleDetails";
+import AdminPurchaseHistory from "./pages/AdminPurchaseHistory";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -51,6 +54,39 @@ function App() {
                     <ProtectedRoute role="ADMIN">
 
                         <EditVehicle />
+
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/vehicle/:id"
+                element={
+                    <ProtectedRoute>
+
+                        <VehicleDetails />
+
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/purchase-history"
+                element={
+                    <ProtectedRoute role="ADMIN">
+
+                        <AdminPurchaseHistory />
+
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+
+                        <Profile />
 
                     </ProtectedRoute>
                 }

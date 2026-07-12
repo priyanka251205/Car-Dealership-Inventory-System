@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Toast from "../components/Toast";
 import { getVehicleById, updateVehicle } from "../services/vehicleService";
+import getVehicleImage from "../../utils/getVehicleImage";
 
 function EditVehicle() {
     const { id } = useParams();
@@ -14,7 +15,9 @@ function EditVehicle() {
         category: "",
         price: "",
         quantity: "",
-        imageUrl: ""
+        imageUrl: "",
+        year: "",
+        description: ""
     });
 
     const [loading, setLoading] = useState(false);
@@ -27,7 +30,16 @@ function EditVehicle() {
             try {
                 const response = await getVehicleById(id);
                 if (active) {
-                    setVehicle(response.data);
+                    setVehicle({
+                        make: response.data.make || "",
+                        model: response.data.model || "",
+                        category: response.data.category || "",
+                        price: response.data.price || "",
+                        quantity: response.data.quantity || "",
+                        imageUrl: response.data.imageUrl || "",
+                        year: response.data.year || "",
+                        description: response.data.description || ""
+                    });
                 }
             } catch (error) {
                 console.error(error);
@@ -49,7 +61,6 @@ function EditVehicle() {
             ...vehicle,
             [e.target.name]: e.target.value
         });
-        // Clear error for that field
         if (errors[e.target.name]) {
             setErrors({
                 ...errors,
@@ -74,10 +85,20 @@ function EditVehicle() {
             tempErrors.quantity = "Quantity must be a non-negative whole number.";
         }
 
+        const yearNum = Number(vehicle.year);
+        const currentYear = new Date().getFullYear();
+        if (!vehicle.year || isNaN(yearNum) || yearNum < 1886 || yearNum > currentYear + 1 || !Number.isInteger(yearNum)) {
+            tempErrors.year = `Year must be a valid four-digit integer (1886 - ${currentYear + 1}).`;
+        }
+
+        if (!vehicle.description.trim()) {
+            tempErrors.description = "Description is required.";
+        } else if (vehicle.description.trim().length < 10) {
+            tempErrors.description = "Description must be at least 10 characters long.";
+        }
+
         const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i;
-        if (!vehicle.imageUrl.trim()) {
-            tempErrors.imageUrl = "Image URL is required.";
-        } else if (!urlPattern.test(vehicle.imageUrl.trim())) {
+        if (vehicle.imageUrl.trim() && !urlPattern.test(vehicle.imageUrl.trim())) {
             tempErrors.imageUrl = "Please enter a valid HTTP/HTTPS image URL.";
         }
 
@@ -95,10 +116,19 @@ function EditVehicle() {
 
         setLoading(true);
         try {
+            const finalImageUrl = vehicle.imageUrl.trim() || getVehicleImage({
+                make: vehicle.make,
+                model: vehicle.model,
+                category: vehicle.category,
+                year: vehicle.year
+            });
+
             await updateVehicle(id, {
                 ...vehicle,
+                imageUrl: finalImageUrl,
                 price: Number(vehicle.price),
-                quantity: Number(vehicle.quantity)
+                quantity: Number(vehicle.quantity),
+                year: Number(vehicle.year)
             });
 
             setToast({ message: "Vehicle Updated Successfully! Redirecting...", type: "success" });
@@ -122,46 +152,65 @@ function EditVehicle() {
                 <div className="row justify-content-center">
                     <div className="col-lg-8">
                         <div className="card shadow-sm border-0 rounded-4">
-                            <div className="card-header bg-primary text-white py-3 border-0 rounded-top-4">
-                                <h3 className="mb-0 fw-bold">Edit Vehicle</h3>
+                            <div className="card-header py-3 border-0 rounded-top-4" style={{ background: "rgba(255, 255, 255, 0.03)", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                                <h3 className="mb-0 fw-bold d-flex align-items-center gap-2" style={{ background: "linear-gradient(to right, #60a5fa, #a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block" }}>
+                                    Edit Vehicle
+                                </h3>
                             </div>
 
                             <div className="card-body p-4">
                                 <form onSubmit={handleSubmit} noValidate>
-                                    <div className="mb-3">
-                                        <label className="form-label fw-semibold">Make</label>
-                                        <input
-                                            className={`form-control rounded-pill px-3 ${errors.make ? "is-invalid" : ""}`}
-                                            name="make"
-                                            value={vehicle.make}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        {errors.make && <div className="invalid-feedback ps-2">{errors.make}</div>}
+                                    <div className="row">
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-semibold">Make</label>
+                                            <input
+                                                className={`form-control rounded-pill px-3 ${errors.make ? "is-invalid" : ""}`}
+                                                name="make"
+                                                value={vehicle.make}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            {errors.make && <div className="invalid-feedback ps-2">{errors.make}</div>}
+                                        </div>
+
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-semibold">Model</label>
+                                            <input
+                                                className={`form-control rounded-pill px-3 ${errors.model ? "is-invalid" : ""}`}
+                                                name="model"
+                                                value={vehicle.model}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            {errors.model && <div className="invalid-feedback ps-2">{errors.model}</div>}
+                                        </div>
                                     </div>
 
-                                    <div className="mb-3">
-                                        <label className="form-label fw-semibold">Model</label>
-                                        <input
-                                            className={`form-control rounded-pill px-3 ${errors.model ? "is-invalid" : ""}`}
-                                            name="model"
-                                            value={vehicle.model}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        {errors.model && <div className="invalid-feedback ps-2">{errors.model}</div>}
-                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-semibold">Category</label>
+                                            <input
+                                                className={`form-control rounded-pill px-3 ${errors.category ? "is-invalid" : ""}`}
+                                                name="category"
+                                                value={vehicle.category}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            {errors.category && <div className="invalid-feedback ps-2">{errors.category}</div>}
+                                        </div>
 
-                                    <div className="mb-3">
-                                        <label className="form-label fw-semibold">Category</label>
-                                        <input
-                                            className={`form-control rounded-pill px-3 ${errors.category ? "is-invalid" : ""}`}
-                                            name="category"
-                                            value={vehicle.category}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        {errors.category && <div className="invalid-feedback ps-2">{errors.category}</div>}
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-semibold">Year</label>
+                                            <input
+                                                type="number"
+                                                className={`form-control rounded-pill px-3 ${errors.year ? "is-invalid" : ""}`}
+                                                name="year"
+                                                value={vehicle.year}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            {errors.year && <div className="invalid-feedback ps-2">{errors.year}</div>}
+                                        </div>
                                     </div>
 
                                     <div className="row">
@@ -192,14 +241,28 @@ function EditVehicle() {
                                         </div>
                                     </div>
 
+                                    <div className="mb-3">
+                                        <label className="form-label fw-semibold">Description</label>
+                                        <textarea
+                                            className={`form-control ${errors.description ? "is-invalid" : ""}`}
+                                            name="description"
+                                            rows="3"
+                                            value={vehicle.description}
+                                            onChange={handleChange}
+                                            style={{ borderRadius: "16px", padding: "12px 18px" }}
+                                            required
+                                        />
+                                        {errors.description && <div className="invalid-feedback ps-2">{errors.description}</div>}
+                                    </div>
+
                                     <div className="mb-4">
-                                        <label className="form-label fw-semibold">Image URL</label>
+                                        <label className="form-label fw-semibold">Image URL (Optional)</label>
                                         <input
                                             className={`form-control rounded-pill px-3 ${errors.imageUrl ? "is-invalid" : ""}`}
                                             name="imageUrl"
                                             value={vehicle.imageUrl}
                                             onChange={handleChange}
-                                            required
+                                            placeholder="Leave blank to auto-generate image or enter URL"
                                         />
                                         {errors.imageUrl && <div className="invalid-feedback ps-2">{errors.imageUrl}</div>}
                                     </div>
@@ -228,7 +291,7 @@ function EditVehicle() {
                                         className="btn btn-primary w-100 rounded-pill py-2.5 fs-5 fw-semibold shadow-sm"
                                         disabled={loading}
                                     >
-                                        {loading ? "Updating Vehicle..." : "Update Vehicle"}
+                                        {loading ? "Updating..." : "Update Vehicle"}
                                     </button>
                                 </form>
                             </div>

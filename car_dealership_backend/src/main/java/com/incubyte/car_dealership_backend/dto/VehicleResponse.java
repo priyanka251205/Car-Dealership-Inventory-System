@@ -21,4 +21,8 @@ public class VehicleResponse {
     private int quantity;
 
     private String imageUrl;
+
+    private int year;
+
+    private String description;
 }

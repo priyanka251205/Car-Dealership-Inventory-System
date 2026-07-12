@@ -27,4 +27,10 @@ public class VehicleRequest {
 
     @NotBlank
     private String imageUrl;
+
+    @Min(1886)
+    private int year;
+
+    @NotBlank
+    private String description;
 }

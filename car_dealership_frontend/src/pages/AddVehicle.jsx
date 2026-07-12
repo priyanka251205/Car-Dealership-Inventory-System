@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Toast from "../components/Toast";
 import { addVehicle } from "../services/vehicleService";
+import getVehicleImage from "../../utils/getVehicleImage";
 
 function AddVehicle() {
     const navigate = useNavigate();
@@ -13,7 +14,9 @@ function AddVehicle() {
         category: "",
         price: "",
         quantity: "",
-        imageUrl: ""
+        imageUrl: "",
+        year: "",
+        description: ""
     });
 
     const [loading, setLoading] = useState(false);
@@ -25,7 +28,6 @@ function AddVehicle() {
             ...vehicle,
             [e.target.name]: e.target.value
         });
-        // Clear error for that field
         if (errors[e.target.name]) {
             setErrors({
                 ...errors,
@@ -50,10 +52,20 @@ function AddVehicle() {
             tempErrors.quantity = "Quantity must be a non-negative whole number.";
         }
 
+        const yearNum = Number(vehicle.year);
+        const currentYear = new Date().getFullYear();
+        if (!vehicle.year || isNaN(yearNum) || yearNum < 1886 || yearNum > currentYear + 1 || !Number.isInteger(yearNum)) {
+            tempErrors.year = `Year must be a valid four-digit integer (1886 - ${currentYear + 1}).`;
+        }
+
+        if (!vehicle.description.trim()) {
+            tempErrors.description = "Description is required.";
+        } else if (vehicle.description.trim().length < 10) {
+            tempErrors.description = "Description must be at least 10 characters long.";
+        }
+
         const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i;
-        if (!vehicle.imageUrl.trim()) {
-            tempErrors.imageUrl = "Image URL is required.";
-        } else if (!urlPattern.test(vehicle.imageUrl.trim())) {
+        if (vehicle.imageUrl.trim() && !urlPattern.test(vehicle.imageUrl.trim())) {
             tempErrors.imageUrl = "Please enter a valid HTTP/HTTPS image URL.";
         }
 
@@ -71,10 +83,19 @@ function AddVehicle() {
 
         setLoading(true);
         try {
+            const finalImageUrl = vehicle.imageUrl.trim() || getVehicleImage({
+                make: vehicle.make,
+                model: vehicle.model,
+                category: vehicle.category,
+                year: vehicle.year
+            });
+
             await addVehicle({
                 ...vehicle,
+                imageUrl: finalImageUrl,
                 price: Number(vehicle.price),
-                quantity: Number(vehicle.quantity)
+                quantity: Number(vehicle.quantity),
+                year: Number(vehicle.year)
             });
 
             setToast({ message: "Vehicle Added Successfully! Redirecting...", type: "success" });
@@ -98,59 +119,77 @@ function AddVehicle() {
                 <div className="row justify-content-center">
                     <div className="col-lg-8">
                         <div className="card shadow-sm border-0 rounded-4">
-                            <div className="card-header bg-dark text-white py-3 border-0 rounded-top-4">
-                                <h3 className="mb-0 fw-bold d-flex align-items-center gap-2">
-                                    🚗 Add New Vehicle
+                            <div className="card-header py-3 border-0 rounded-top-4" style={{ background: "rgba(255, 255, 255, 0.03)", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                                <h3 className="mb-0 fw-bold d-flex align-items-center gap-2" style={{ background: "linear-gradient(to right, #60a5fa, #a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block" }}>
+                                    Add New Vehicle
                                 </h3>
                             </div>
 
                             <div className="card-body p-4">
                                 <form onSubmit={handleSubmit} noValidate>
-                                    <div className="mb-3">
-                                        <label className="form-label fw-semibold">Make</label>
-                                        <input
-                                            type="text"
-                                            className={`form-control rounded-pill px-3 ${errors.make ? "is-invalid" : ""}`}
-                                            name="make"
-                                            placeholder="e.g. Honda"
-                                            value={vehicle.make}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        {errors.make && <div className="invalid-feedback ps-2">{errors.make}</div>}
+                                    <div className="row">
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-semibold">Make</label>
+                                            <input
+                                                type="text"
+                                                className={`form-control rounded-pill px-3 ${errors.make ? "is-invalid" : ""}`}
+                                                name="make"
+                                                placeholder="e.g. Honda"
+                                                value={vehicle.make}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            {errors.make && <div className="invalid-feedback ps-2">{errors.make}</div>}
+                                        </div>
+
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-semibold">Model</label>
+                                            <input
+                                                type="text"
+                                                className={`form-control rounded-pill px-3 ${errors.model ? "is-invalid" : ""}`}
+                                                name="model"
+                                                placeholder="e.g. Civic"
+                                                value={vehicle.model}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            {errors.model && <div className="invalid-feedback ps-2">{errors.model}</div>}
+                                        </div>
                                     </div>
 
-                                    <div className="mb-3">
-                                        <label className="form-label fw-semibold">Model</label>
-                                        <input
-                                            type="text"
-                                            className={`form-control rounded-pill px-3 ${errors.model ? "is-invalid" : ""}`}
-                                            name="model"
-                                            placeholder="e.g. Civic"
-                                            value={vehicle.model}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        {errors.model && <div className="invalid-feedback ps-2">{errors.model}</div>}
-                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-semibold">Category</label>
+                                            <select
+                                                className={`form-select rounded-pill px-3 ${errors.category ? "is-invalid" : ""}`}
+                                                name="category"
+                                                value={vehicle.category}
+                                                onChange={handleChange}
+                                                required
+                                            >
+                                                <option value="">Select Category</option>
+                                                <option>SUV</option>
+                                                <option>Sedan</option>
+                                                <option>Hatchback</option>
+                                                <option>Sports</option>
+                                                <option>Truck</option>
+                                            </select>
+                                            {errors.category && <div className="invalid-feedback ps-2">{errors.category}</div>}
+                                        </div>
 
-                                    <div className="mb-3">
-                                        <label className="form-label fw-semibold">Category</label>
-                                        <select
-                                            className={`form-select rounded-pill px-3 ${errors.category ? "is-invalid" : ""}`}
-                                            name="category"
-                                            value={vehicle.category}
-                                            onChange={handleChange}
-                                            required
-                                        >
-                                            <option value="">Select Category</option>
-                                            <option>SUV</option>
-                                            <option>Sedan</option>
-                                            <option>Hatchback</option>
-                                            <option>Sports</option>
-                                            <option>Truck</option>
-                                        </select>
-                                        {errors.category && <div className="invalid-feedback ps-2">{errors.category}</div>}
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-semibold">Year</label>
+                                            <input
+                                                type="number"
+                                                className={`form-control rounded-pill px-3 ${errors.year ? "is-invalid" : ""}`}
+                                                name="year"
+                                                placeholder="e.g. 2024"
+                                                value={vehicle.year}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            {errors.year && <div className="invalid-feedback ps-2">{errors.year}</div>}
+                                        </div>
                                     </div>
 
                                     <div className="row">
@@ -183,16 +222,30 @@ function AddVehicle() {
                                         </div>
                                     </div>
 
+                                    <div className="mb-3">
+                                        <label className="form-label fw-semibold">Description</label>
+                                        <textarea
+                                            className={`form-control ${errors.description ? "is-invalid" : ""}`}
+                                            name="description"
+                                            rows="3"
+                                            placeholder="Provide a comprehensive description of the vehicle (features, specifications, mechanical condition, etc.)."
+                                            value={vehicle.description}
+                                            onChange={handleChange}
+                                            style={{ borderRadius: "16px", padding: "12px 18px" }}
+                                            required
+                                        />
+                                        {errors.description && <div className="invalid-feedback ps-2">{errors.description}</div>}
+                                    </div>
+
                                     <div className="mb-4">
-                                        <label className="form-label fw-semibold">Vehicle Image URL</label>
+                                        <label className="form-label fw-semibold">Vehicle Image URL (Optional)</label>
                                         <input
                                             type="url"
                                             className={`form-control rounded-pill px-3 ${errors.imageUrl ? "is-invalid" : ""}`}
                                             name="imageUrl"
                                             value={vehicle.imageUrl}
                                             onChange={handleChange}
-                                            placeholder="https://example.com/car-image.jpg"
-                                            required
+                                            placeholder="Leave blank to auto-generate image or enter URL"
                                         />
                                         {errors.imageUrl && <div className="invalid-feedback ps-2">{errors.imageUrl}</div>}
                                     </div>
@@ -239,4 +292,4 @@ function AddVehicle() {
     );
 }
 
-export default AddVehicle;
+export default AddVehicle;

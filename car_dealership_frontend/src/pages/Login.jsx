@@ -48,6 +48,7 @@ function Login() {
             localStorage.setItem("token", response.token);
             localStorage.setItem("role", response.role);
             localStorage.setItem("name", response.name);
+            localStorage.setItem("email", form.email);
 
             setToast({ message: "Login Successful! Redirecting...", type: "success" });
             setTimeout(() => {
@@ -65,11 +66,10 @@ function Login() {
     };
 
     return (
-        <div className="login-page bg-light d-flex align-items-center justify-content-center min-vh-100">
-            <div className="login-card-wrapper p-4 bg-white shadow border-0 rounded-4" style={{ maxWidth: "440px", width: "100%" }}>
+        <div className="login-page">
+            <div className="login-card-wrapper p-4 shadow border-0 rounded-4" style={{ maxWidth: "440px", width: "100%" }}>
                 <div className="text-center mb-4">
-                    <span className="fs-1 d-inline-block mb-2">🚗</span>
-                    <h2 className="fw-bold text-dark mb-1">Car Dealership</h2>
+                    <h2 className="fw-bold mb-1">Luxora Motors</h2>
                     <p className="text-secondary">Sign in to manage inventory</p>
                 </div>
 

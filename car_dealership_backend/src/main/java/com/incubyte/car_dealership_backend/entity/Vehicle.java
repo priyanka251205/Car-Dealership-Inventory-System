@@ -40,4 +40,12 @@ public class Vehicle {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    @Min(value = 1886, message = "Year must be valid")
+    @Column(nullable = false)
+    private int year;
+
+    @NotBlank(message = "Description is required")
+    @Column(nullable = false, length = 1000)
+    private String description;
 }

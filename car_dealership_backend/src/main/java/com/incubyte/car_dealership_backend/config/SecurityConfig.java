@@ -61,7 +61,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/vehicles/*/purchase")
                         .hasAnyAuthority("USER", "ADMIN")
 
+                        .requestMatchers(HttpMethod.POST, "/api/purchase")
+                        .hasAnyAuthority("USER", "ADMIN")
+
                         // ADMIN ONLY
+                        .requestMatchers(HttpMethod.GET, "/api/purchase-history")
+                        .hasAuthority("ADMIN")
+
                         .requestMatchers(HttpMethod.POST, "/api/vehicles")
                         .hasAuthority("ADMIN")
 

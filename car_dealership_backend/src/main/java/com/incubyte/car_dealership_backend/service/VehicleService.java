@@ -25,6 +25,8 @@ public class VehicleService {
                 .price(request.getPrice())
                 .quantity(request.getQuantity())
                 .imageUrl(request.getImageUrl())
+                .year(request.getYear())
+                .description(request.getDescription())
                 .build();
 
         vehicleRepository.save(vehicle);
@@ -55,6 +57,8 @@ public class VehicleService {
         vehicle.setPrice(request.getPrice());
         vehicle.setQuantity(request.getQuantity());
         vehicle.setImageUrl(request.getImageUrl());
+        vehicle.setYear(request.getYear());
+        vehicle.setDescription(request.getDescription());
 
         return vehicleRepository.save(vehicle);
     }

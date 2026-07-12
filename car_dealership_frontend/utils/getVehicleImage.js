@@ -1,4 +1,33 @@
-const getVehicleImage = (category) => {
+const getVehicleImage = (vehicle) => {
+  let make = "";
+  let model = "";
+  let category = "";
+  let year = "";
+
+  if (vehicle && typeof vehicle === "object") {
+    make = vehicle.make || "";
+    model = vehicle.model || "";
+    category = vehicle.category || "";
+    year = vehicle.year || "";
+  } else if (typeof vehicle === "string") {
+    category = vehicle;
+  }
+
+  // Construct query: make + model + category + year
+  const queryParts = [];
+  if (make) queryParts.push(make);
+  if (model) queryParts.push(model);
+  if (category) queryParts.push(category);
+  if (year) queryParts.push(year);
+
+  const query = queryParts.join(" ").trim();
+
+  // If we can construct a search query, use Unsplash Source
+  if (query) {
+    return `https://source.unsplash.com/featured/800x600/?${encodeURIComponent(query)}`;
+  }
+
+  // Fallback to category-based static Unsplash images
   switch (category?.toLowerCase()) {
     case "suv":
       return "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=80";

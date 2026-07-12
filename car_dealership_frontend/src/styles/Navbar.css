@@ -1,37 +1,68 @@
 .modern-navbar {
-    background-color: #0f172a !important; /* Dark slate blue */
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.85rem 0;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 30px rgba(30, 41, 59, 0.05);
+  border-bottom: 1px solid #E2E8F0 !important;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
 }
 
-.logo-icon {
-    font-size: 1.85rem;
-    transition: transform 0.3s ease;
-}
-
-.modern-navbar .navbar-brand:hover .logo-icon {
-    transform: rotate(-10deg) scale(1.1);
+.brand-text {
+  display: flex;
+  flex-direction: column;
 }
 
 .branding-title {
-    font-size: 1.2rem;
-    line-height: 1.2;
-    color: #ffffff;
-    font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .branding-subtitle {
-    font-size: 0.75rem;
-    color: #94a3b8 !important;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #64748B !important;
+  font-weight: 600;
 }
 
-.navbar-actions .btn {
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
+/* Nav Links */
+.modern-navbar .nav-link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #64748B !important;
+  transition: all 0.3s ease;
+  border-radius: 8px;
 }
 
-.navbar-actions .btn:hover {
-    transform: translateY(-1px);
+.modern-navbar .nav-link:hover {
+  color: #3B82F6 !important;
+  background-color: rgba(59, 130, 246, 0.04);
+}
+
+.modern-navbar .nav-link.active-link {
+  color: #3B82F6 !important;
+  background-color: rgba(59, 130, 246, 0.1);
+  font-weight: 600;
+}
+
+/* Actions & Buttons */
+.logout-btn {
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  color: #EF4444 !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  background-color: transparent !important;
+}
+
+.logout-btn:hover {
+  background-color: #EF4444 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+  transform: translateY(-1px);
 }

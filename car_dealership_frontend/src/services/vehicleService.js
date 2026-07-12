@@ -23,3 +23,9 @@ export const deleteVehicle = (id) =>
 
 export const restockVehicle = (id, quantity) =>
     api.post(`/vehicles/${id}/restock?quantity=${quantity}`);
+
+export const submitPurchase = (purchaseData) =>
+    api.post("/purchase", purchaseData);
+
+export const getPurchaseHistory = () =>
+    api.get("/purchase-history");

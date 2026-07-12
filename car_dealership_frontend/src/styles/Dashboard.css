@@ -1,72 +1,178 @@
+:root {
+  --bg-primary: #F4F6F9;
+  --bg-secondary: #E9ECEF;
+  --card-bg: #FFFFFF;
+  --border-color: #E2E8F0;
+  --border-hover: #3B82F6;
+  --accent-color: #3B82F6;
+  --accent-gradient: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+  --accent-gradient-hover: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  --text-primary: #1E293B;
+  --text-secondary: #64748B;
+  --text-emerald: #10B981;
+  --text-warning: #F59E0B;
+  --text-danger: #EF4444;
+}
+
 body {
-    background-color: #f8fafc;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #1e293b;
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 45%);
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
 }
 
-/* Hero Section */
+/* Global Card styling overrides */
+.card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 10px 30px -10px rgba(30, 41, 59, 0.05) !important;
+}
+
+.text-dark {
+  color: var(--text-primary) !important;
+}
+
+.text-secondary, .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+.bg-light {
+  background-color: var(--bg-secondary) !important;
+}
+
+.bg-white {
+  background-color: var(--card-bg) !important;
+}
+
+/* Dashboard Hero */
 .dashboard-hero {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 3rem 2rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f1f5f9;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F1F5F9 100%) !important;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px -15px rgba(30, 41, 59, 0.08);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Statistics Cards */
+.dashboard-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dashboard-hero h1 {
+  background: linear-gradient(to right, #1E293B, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+/* Stat Cards */
 .stat-card {
-    background: #ffffff;
-    border-radius: 16px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid #f1f5f9 !important;
+  background: var(--card-bg) !important;
+  border-radius: 20px;
+  border: 1px solid var(--border-color) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px -5px rgba(30, 41, 59, 0.06) !important;
+  position: relative;
+  overflow: hidden;
 }
 
 .stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-5px);
+  border-color: var(--border-hover) !important;
+  box-shadow: 0 20px 40px -15px rgba(59, 130, 246, 0.15) !important;
 }
 
-.stat-icon {
-    flex-shrink: 0;
-    transition: all 0.3s ease;
+.stat-card h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-.stat-card:hover .stat-icon {
-    transform: scale(1.1);
-}
-
-/* Loading & Empty State Wrapper */
-.loading-wrapper, .empty-state-container {
-    transition: all 0.3s ease;
-}
-
-.empty-state-container {
-    border: 1px solid #e2e8f0;
-    max-width: 600px;
-    margin: 3rem auto;
-}
-
-/* Search Bar Wrapper */
+/* Search Bar & Filters */
 .search-bar-container {
-    background: #ffffff !important;
-    border-radius: 16px !important;
-    border: 1px solid #e2e8f0 !important;
+  background: #FFFFFF !important;
+  border-radius: 20px !important;
+  border: 1px solid var(--border-color) !important;
+  padding: 1.75rem !important;
+  box-shadow: 0 10px 30px -15px rgba(30, 41, 59, 0.05);
 }
 
-.search-input {
-    border: 1px solid #cbd5e1;
-    transition: all 0.2s ease;
+.search-bar-container h5 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  background: linear-gradient(to right, #3B82F6, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.search-input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+.form-control, .form-select {
+  background-color: #F8FAFC !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  padding: 0.75rem 1.25rem !important;
+  transition: all 0.3s ease;
 }
 
-.search-button {
-    transition: all 0.2s ease;
+.form-control:focus, .form-select:focus {
+  background-color: #FFFFFF !important;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.2) !important;
 }
 
-.search-button:hover {
-    transform: translateY(-1px);
-}
+.form-control::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Buttons */
+.btn-success {
+  background: var(--accent-gradient) !important;
+  border: 0 !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  transition: all 0.3s ease !important;
+}
+
+.btn-success:hover {
+  background: var(--accent-gradient-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -5px rgba(139, 92, 246, 0.35);
+}
+
+.btn-outline-primary {
+  color: #3B82F6 !important;
+  border-color: #3B82F6 !important;
+  font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+  background: #3B82F6 !important;
+  color: #ffffff !important;
+  border-color: #3B82F6 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(59, 130, 246, 0.2);
+}
+
+.btn-secondary, .btn-outline-secondary {
+  background: #F8FAFC !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-secondary) !important;
+}
+
+.btn-secondary:hover, .btn-outline-secondary:hover {
+  background: #F1F5F9 !important;
+  color: var(--text-primary) !important;
+}
