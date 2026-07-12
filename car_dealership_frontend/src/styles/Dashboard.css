@@ -14,4 +14,10 @@
 
     box-shadow:0 20px 40px rgba(0,0,0,.2);
 
+
+}
+.vehicle-image{
+    height:220px;
+    object-fit:cover;
+    border-radius:12px 12px 0 0;
 }

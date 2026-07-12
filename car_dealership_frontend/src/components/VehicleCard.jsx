@@ -1,28 +1,26 @@
 function VehicleCard({ vehicle, onPurchase }) {
   return (
-    <div className="card vehicle-card shadow">
-
+    <div className="card shadow h-100 vehicle-card">
       <div className="card-body">
 
-        <h4>{vehicle.make}</h4>
+        <h4 className="fw-bold">{vehicle.make}</h4>
 
-        <h5 className="text-muted">{vehicle.model}</h5>
+        <h5 className="text-secondary">
+          {vehicle.model}
+        </h5>
 
         <hr />
 
         <p>
-          <strong>Category</strong><br />
-          {vehicle.category}
+          <strong>Category :</strong> {vehicle.category}
         </p>
 
         <p>
-          <strong>Price</strong><br />
-          ₹ {vehicle.price}
+          <strong>Price :</strong> ₹{vehicle.price}
         </p>
 
         <p>
-          <strong>Stock</strong><br />
-          {vehicle.quantity}
+          <strong>Stock :</strong> {vehicle.quantity}
         </p>
 
         <button
@@ -30,11 +28,12 @@ function VehicleCard({ vehicle, onPurchase }) {
           disabled={vehicle.quantity === 0}
           onClick={() => onPurchase(vehicle.id)}
         >
-          {vehicle.quantity === 0 ? "Out of Stock" : "Purchase"}
+          {vehicle.quantity === 0
+            ? "Out Of Stock"
+            : "Purchase"}
         </button>
 
       </div>
-
     </div>
   );
 }
